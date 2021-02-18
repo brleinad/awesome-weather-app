@@ -8,7 +8,6 @@ import { DataStoreService } from '../../services/data-store.service';
   styleUrls: ['./city-selector.component.scss']
 })
 export class CitySelectorComponent implements OnInit {
-
   city = new FormControl('');
 
   constructor(private dataStore: DataStoreService) { }

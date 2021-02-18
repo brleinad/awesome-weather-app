@@ -4,8 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-
-
+import {MatTableModule} from '@angular/material/table';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +24,7 @@ import { ForecastDisplayComponent } from './components/forecast-display/forecast
     FormsModule,
     MatInputModule,
     MatButtonModule,
+    MatTableModule,
     HttpClientModule
   ],
   providers: [],
