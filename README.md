@@ -17,10 +17,10 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ## Project structure
 
 `./src/app/` ->
-`data-tracker/`: contains the Data Tracker class and its tests
-`components/`: contains the components used in the project 
-`services/`: contains the services
-`models/`: contains the models
+- `data-tracker/`: contains the Data Tracker class and its tests
+- `components/`: contains the components used in the project 
+- `services/`: contains the services
+- `models/`: contains the models
 
 ## Tests
 
