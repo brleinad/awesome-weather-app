@@ -1,8 +1,3 @@
-
-TODO:
-- temp units
-
-
 # AwesomeWeatherApp
 
 This is a simple app that uses the open weather api to display temperature information for a given city.

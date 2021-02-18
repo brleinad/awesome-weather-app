@@ -4,4 +4,5 @@ export interface CityTemperatureInfo {
   max: number;
   mean: number;
   mode: number;
+  unit: string;
 }

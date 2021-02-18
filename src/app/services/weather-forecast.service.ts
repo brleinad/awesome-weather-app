@@ -13,6 +13,8 @@ import { DataTracker } from '../data-tracker/data-tracker';
 })
 export class WeatherForecastService {
   city$: Observable<string> = this.dataStore.city$;
+  temperatureUnit$: Observable<string> = this.dataStore.temperatureUnit$;
+  temperatureUnits: string = 'imperial';
   cityWasFound: boolean;
 
   forecastTracker = new DataTracker();
@@ -22,8 +24,12 @@ export class WeatherForecastService {
   readonly forecastTracker$ = this._forecastTracker.asObservable();
 
   constructor(private http: HttpClient, private dataStore: DataStoreService) {
-
     this.subscribeToCity();
+
+    this.temperatureUnit$.subscribe(unit => {
+      this.temperatureUnits = unit;
+    });
+
   }
 
   private subscribeToCity(): void {
@@ -55,9 +61,8 @@ export class WeatherForecastService {
   }
 
   getForecastForCity(cityName: string): Observable<Forecast> {
-    const unit = 'imperial';
     return this.http.get<Forecast>(
-      `${environment.OPENWEATHERMAP_API}/forecast?q=${cityName}&units=${unit}&appid=${environment.OPENWEATHERMAP_KEY}`
+      `${environment.OPENWEATHERMAP_API}/forecast?q=${cityName}&units=${this.temperatureUnits}&appid=${environment.OPENWEATHERMAP_KEY}`
     );
   }
 

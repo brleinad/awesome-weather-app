@@ -8,19 +8,22 @@ import {MatTableModule} from '@angular/material/table';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+
 
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CitySelectorComponent } from './components/city-selector/city-selector.component';
 import { ForecastDisplayComponent } from './components/forecast-display/forecast-display.component';
+import { UnitSelectorComponent } from './components/unit-selector/unit-selector.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CitySelectorComponent,
-    ForecastDisplayComponent
+    ForecastDisplayComponent,
+    UnitSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,7 @@ import { ForecastDisplayComponent } from './components/forecast-display/forecast
     MatToolbarModule,
     MatCardModule,
     MatChipsModule,
-    MatSnackBarModule,
+    MatButtonToggleModule,
     MatTableModule,
     HttpClientModule
   ],

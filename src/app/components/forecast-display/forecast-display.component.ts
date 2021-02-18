@@ -16,12 +16,14 @@ import { CityTemperatureInfo } from '../../models/city-temperature-info';
 export class ForecastDisplayComponent implements OnInit {
   newCity: string ='';
   city$: Observable<string> = this.dataStore.city$;
+  temperatureUnit$: Observable<string> = this.dataStore.temperatureUnit$;
   cityForecastWasObtained = false;
   forecastTracker = new DataTracker();
-  displayedColumns: string[] = ['city', 'min', 'max', 'mean', 'mode'];
+  displayedColumns: string[] = ['city', 'min', 'max', 'mean', 'mode', 'unit'];
   dataSource = new MatTableDataSource<CityTemperatureInfo>();
   cityTemperatureInfos: CityTemperatureInfo[] = [];
   forecastNotFound: boolean = false;
+  currentTemperatureUnit: string;
 
 
   constructor(
@@ -29,6 +31,10 @@ export class ForecastDisplayComponent implements OnInit {
     private forecastService: WeatherForecastService) { }
 
   ngOnInit(): void {
+
+    this.temperatureUnit$.subscribe((unit) => {
+      this.currentTemperatureUnit = unit;
+    })
 
     this.city$.subscribe((city) => {
       if (city) {
@@ -52,6 +58,7 @@ export class ForecastDisplayComponent implements OnInit {
           max: this.forecastTracker.showMax(),
           mean: this.forecastTracker.showMean(),
           mode: this.forecastTracker.showMode(),
+          unit: this.currentTemperatureUnit === 'imperial' ? 'F' : 'C',
         });
 
         this.dataSource.data = this.cityTemperatureInfos;

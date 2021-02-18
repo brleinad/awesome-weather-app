@@ -1,0 +1,7 @@
+  <div class="unit-selector">
+    <h4 style="margin: auto;">Temperature Units</h4>
+    <mat-button-toggle-group [(ngModel)]="tempUnit" name="fontStyle" aria-label="Font Style">
+      <mat-button-toggle value="imperial" (click)="onButtonClick()">F</mat-button-toggle>
+      <mat-button-toggle value="metric" (click)="onButtonClick()">C</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
