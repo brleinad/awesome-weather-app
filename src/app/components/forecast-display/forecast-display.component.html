@@ -1,19 +1,28 @@
-<p> Temperature Info for {{city$ | async}}</p>
+
+<mat-chip-list class="mat-chip-list-stacked warnings" aria-label="warnings">
+  <mat-chip color="warn" *ngIf="forecastNotFound" selected>No forecast found for {{newCity}}</mat-chip>
+</mat-chip-list>
+
 
 <table *ngIf="cityForecastWasObtained"
   mat-table
   [dataSource]="dataSource"
   style="min-width: 350px;"
-  class="mat-elevation-z8">
+  class="mat-elevation-z8 city-table">
+
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef> City </th>
+    <td mat-cell *matCellDef="let element" id="{{element.city.split(' ').join('-')}}-city-name"> {{element.city}} </td>
+  </ng-container>
 
   <ng-container matColumnDef="min">
     <th mat-header-cell *matHeaderCellDef> Min </th>
-    <td mat-cell *matCellDef="let element"> {{element.min | number}} </td>
+    <td mat-cell *matCellDef="let element" id="city-min"> {{element.min | number}} </td>
   </ng-container>
 
   <ng-container matColumnDef="max">
     <th mat-header-cell *matHeaderCellDef> Max </th>
-    <td mat-cell *matCellDef="let element"> {{element.max | number}} </td>
+    <td mat-cell *matCellDef="let element" id="city-max"> {{element.max | number}} </td>
   </ng-container>
 
   <ng-container matColumnDef="mean">

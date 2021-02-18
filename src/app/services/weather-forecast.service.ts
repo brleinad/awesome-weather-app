@@ -9,51 +9,76 @@ import { DataStoreService } from './data-store.service';
 import { DataTracker } from '../data-tracker/data-tracker';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WeatherForecastService {
   city$: Observable<string> = this.dataStore.city$;
-  cityNotFound = false;
+  cityWasFound: boolean;
 
   forecastTracker = new DataTracker();
-  private readonly _forecastTracker = new BehaviorSubject<DataTracker>(this.forecastTracker);
+  private readonly _forecastTracker = new BehaviorSubject<DataTracker>(
+    this.forecastTracker
+  );
   readonly forecastTracker$ = this._forecastTracker.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private dataStore: DataStoreService,
-    ) {
+  constructor(private http: HttpClient, private dataStore: DataStoreService) {
 
-      this.city$.subscribe((city: string) => {
+    this.subscribeToCity();
+  }
+
+  private subscribeToCity(): void {
+
+    this.city$.pipe(
+      switchMap(city => {
         if (city) {
-          this.cityNotFound = false;
-          this.getForecastForCity(city).subscribe(forecast => {
-            console.log({forecast})
-            this.handleForecastData(forecast);
-
-          }, error => {
-            console.log('there was an error')
-            console.log(error)
-            if (error.status === 404) {;
-              this.cityNotFound = true;
-            }
-          })
+          return this.getForecastForCity(city);
         }
+        // return an empty forecast if no city
+        return of({list: []});
       })
+    ).subscribe(
+      (forecast) => {
+        if (forecast) {
+          this.cityWasFound = true;
+          this.handleForecastData(forecast);
+        }
 
+      }, (error) => {
+        if (error.status === 404) {
+          this.cityWasFound = false;
+        }
+        this.dataStore.city = '';
+        // need to subscribe again if the stream completes with an error
+        this.subscribeToCity();
+      }
+    )
   }
 
   getForecastForCity(cityName: string): Observable<Forecast> {
     const unit = 'imperial';
-    return this.http.get<Forecast>(`${environment.OPENWEATHERMAP_API}/forecast?q=${cityName}&units=${unit}&appid=${environment.OPENWEATHERMAP_KEY}`);
+    return this.http.get<Forecast>(
+      `${environment.OPENWEATHERMAP_API}/forecast?q=${cityName}&units=${unit}&appid=${environment.OPENWEATHERMAP_KEY}`
+    );
   }
-
 
   private handleForecastData(forecast: Forecast) {
-    console.log({forecast})
-    forecast.list.forEach(forecastElement => this.forecastTracker.insert(forecastElement.main.temp));
-    this._forecastTracker.next(this.forecastTracker);
+    if (forecast.list.length > 0) {
+      this.forecastTracker = new DataTracker();
+      forecast?.list.forEach((forecastElement) =>
+        this.forecastTracker.insert(forecastElement.main.temp)
+      );
+      this._forecastTracker.next(this.forecastTracker);
+    }
   }
 
+  public isValidForecastTracker(): boolean{
+    if (this.forecastTracker.showMean()) {
+      return true;
+    }
+    return false
+  }
 
+  public wasCityFound(): boolean {
+    return this.cityWasFound;
+  }
 }

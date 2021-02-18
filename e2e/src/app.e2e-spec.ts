@@ -6,12 +6,26 @@ describe('workspace-project App', () => {
 
   beforeEach(() => {
     page = new AppPage();
+    page.navigateTo();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getTitleText()).toEqual('awesome-weather-app app is running!');
+  it('should have the right title', () => {
+    expect(page.getTitleText()).toEqual('Daniel\'s Awesome Weather App');
   });
+
+  it('should be able to add a city', () => {
+    page.addCity('Quebec');
+    expect(page.getCityMin()).toBeTruthy();
+    expect(page.getCityMax()).toBeTruthy();
+  })
+
+  // TODO
+  // it('should not be able to add a fake city', () => {
+  //   page.addCity('asdfgsda');
+  //   expect(page.getCityMin()).toBeFalsy();
+  //   expect(page.getCityMax()).toBeFalsy();
+  // })
+
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser
