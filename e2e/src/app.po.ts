@@ -11,15 +11,20 @@ export class AppPage {
 
 
   addCity(cityName: string): Promise<unknown> {
+    element(by.id('city-input')).clear();
     element(by.id('city-input')).sendKeys(cityName);
     return element(by.id('city-button')).click() as Promise<unknown>
   }
 
-  getCityMin(): Promise<string> {
-    return element(by.id('city-min')).getText() as Promise<string>;
+  getCityMin(cityName: string): Promise<string> {
+    return element(by.id(`${cityName}-city-min`)).getText() as Promise<string>;
   }
 
-  getCityMax(): Promise<string> {
-    return element(by.id('city-max')).getText() as Promise<string>;
+  getCityMax(cityName: string): Promise<string> {
+    return element(by.id(`${cityName}-city-max`)).getText() as Promise<string>;
+  }
+
+  getCityNotFound(): Promise<string> {
+    return element(by.id('city-not-found')).getText() as Promise<string>;
   }
 }

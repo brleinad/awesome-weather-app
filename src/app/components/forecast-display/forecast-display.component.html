@@ -1,6 +1,6 @@
 
 <mat-chip-list class="mat-chip-list-stacked warnings" aria-label="warnings">
-  <mat-chip color="warn" *ngIf="forecastNotFound" selected>No forecast found for {{newCity}}</mat-chip>
+  <mat-chip id="city-not-found" color="warn" *ngIf="forecastNotFound" selected>No forecast found for {{newCity}}</mat-chip>
 </mat-chip-list>
 
 
@@ -12,27 +12,27 @@
 
   <ng-container matColumnDef="city">
     <th mat-header-cell *matHeaderCellDef> City </th>
-    <td mat-cell *matCellDef="let element" id="{{element.city.split(' ').join('-')}}-city-name"> {{element.city}} </td>
+    <td mat-cell *matCellDef="let element" id="{{getCityNameId(element.city)}}-city-name"> {{element.city}} </td>
   </ng-container>
 
   <ng-container matColumnDef="min">
     <th mat-header-cell *matHeaderCellDef> Min </th>
-    <td mat-cell *matCellDef="let element" id="city-min"> {{element.min | number}} </td>
+    <td mat-cell *matCellDef="let element" id="{{getCityNameId(element.city)}}-city-min"> {{element.min | number}} </td>
   </ng-container>
 
   <ng-container matColumnDef="max">
     <th mat-header-cell *matHeaderCellDef> Max </th>
-    <td mat-cell *matCellDef="let element" id="city-max"> {{element.max | number}} </td>
+    <td mat-cell *matCellDef="let element" id="{{getCityNameId(element.city)}}-city-max"> {{element.max | number}} </td>
   </ng-container>
 
   <ng-container matColumnDef="mean">
     <th mat-header-cell *matHeaderCellDef> Mean </th>
-    <td mat-cell *matCellDef="let element"> {{element.mean | number}} </td>
+    <td mat-cell *matCellDef="let element" id="{{getCityNameId(element.city)}}-city-mean"> {{element.mean | number}} </td>
   </ng-container>
 
   <ng-container matColumnDef="mode">
     <th mat-header-cell *matHeaderCellDef> Mode </th>
-    <td mat-cell *matCellDef="let element"> {{element.mode | number}} </td>
+    <td mat-cell *matCellDef="let element" id="{{getCityNameId(element.city)}}-city-mode"> {{element.mode | number}} </td>
   </ng-container>
 
   <ng-container matColumnDef="unit">

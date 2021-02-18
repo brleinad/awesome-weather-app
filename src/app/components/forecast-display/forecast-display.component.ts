@@ -68,5 +68,9 @@ export class ForecastDisplayComponent implements OnInit {
     })
   }
 
+  getCityNameId(cityName): string {
+    return cityName.split(' ').join('-');
+  }
+
 
 }

@@ -14,24 +14,23 @@ describe('workspace-project App', () => {
   });
 
   it('should be able to add a city', () => {
-    page.addCity('Quebec');
-    expect(page.getCityMin()).toBeTruthy();
-    expect(page.getCityMax()).toBeTruthy();
+    page.addCity('quebec');
+    expect(page.getCityMin('quebec')).toBeTruthy();
+    expect(page.getCityMax('quebec')).toBeTruthy();
   })
 
-  // TODO
-  // it('should not be able to add a fake city', () => {
-  //   page.addCity('asdfgsda');
-  //   expect(page.getCityMin()).toBeFalsy();
-  //   expect(page.getCityMax()).toBeFalsy();
-  // })
+  it('should be able to add many cities', async () => {
+    await page.addCity('quebec');
+    await page.addCity('portland');
+    expect(page.getCityMin('quebec')).toBeTruthy();
+    expect(page.getCityMax('quebec')).toBeTruthy();
+    expect(page.getCityMin('portland')).toBeTruthy();
+    expect(page.getCityMax('portland')).toBeTruthy();
+  })
 
+  it('should not be able to add a fake city', () => {
+    page.addCity('asdfgsda');
+    expect(page.getCityNotFound()).toBe('No forecast found for asdfgsda');
+  })
 
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
-  });
 });
